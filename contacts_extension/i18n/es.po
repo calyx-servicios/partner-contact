@@ -1,0 +1,22 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * l10n_ar_partner
+# 
+# Translators:
+# Mario Moreno <mariodmoreno@gmail.com>, 2018
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Mario Moreno <mariodmoreno@gmail.com>, 2018\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: l10n_ar_partner
+#: model:ir.ui.view,arch_db:l10n_ar_partner.view_company_inherit_form
+#: model:ir.ui.view,arch_db:l10n_ar_partner.view_partner_form
+msgid "Main Identification"
+msgstr "Tipo de Documento"
