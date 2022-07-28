@@ -50,7 +50,6 @@ def get_partner_values(data: dict) -> dict:
         raise ValidationError("Country not found")
     if type(country) == str:
         country = translate_country(country)
-    _logger.info(country)
     country = (
         request.env["res.country"]
         .sudo()
@@ -93,7 +92,6 @@ def get_partner_values(data: dict) -> dict:
         "vat": str(data.get("vat")),
         "l10n_latam_identification_type_id": get_identification_type_id(data, country),
     }
-    _logger.info(values)
     responsability_type = get_responsability_type(data, country)
     if responsability_type:
         values.update(responsability_type)
