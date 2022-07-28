@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!-- JWT validator to be used by TCM external to Odoo applications -->
+    <record id="jwt_cx_api_partner_jwt_validator" model="auth.jwt.validator">
+        <field name="name">cx_api_partner</field>
+        <field name="audience">cx_api_partner</field>
+        <field name="issuer">eFH4$12!UHLgqK#whdfM</field>
+        <field name="signature_type">secret</field>
+        <field name="secret_algorithm">HS256</field>
+        <field name="secret_key">Ed51*888@duKYK$sgBh#</field>
+        <field name="user_id_strategy">static</field>
+        <field name="static_user_id" ref="jwt_cx_api_partner_static_user" />
+        <field name="partner_id_strategy">email</field>
+        <field name="partner_id_required" eval="False" />
+    </record>
+
+</odoo>
