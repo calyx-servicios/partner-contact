@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<odoo>
-    <record model='ir.config_parameter' id='unique_id_numbers'>
-        <field name='key'>l10n_ar_partner.unique_id_numbers</field>
-        <field name='value'>True</field>
-    </record>
-</odoo>
