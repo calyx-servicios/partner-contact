@@ -2,13 +2,6 @@
 Calyx Services Partner API
 ==========================
 
-.. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   !! This file is intended to be in every module    !!
-   !! to explain why and how it works.               !!
-   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-.. User https://shields.io for badge creation.
 .. |badge1| image:: https://img.shields.io/badge/maturity-Stable-brightgreen
     :target: https://odoo-community.org/page/development-status
     :alt: Stable
@@ -16,28 +9,17 @@ Calyx Services Partner API
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
 .. |badge3| image:: https://img.shields.io/badge/github-calyx--servicios%2Fcalyx-lightgray.png?logo=github
-    :target: https://github.com/calyx-servicios/calyx.git
+    :target: https://github.com/calyx-servicios/partner-contact.git
     :alt: calyx-servicios/calyx.git
 
 |badge1| |badge2| |badge3|
 
-.. !!! Description must be max 2-3 paragraphs, and is required.
-
-This module extends the functionality of ... to support ... and to allow you to ...
+This module extends the functionality of Contacts to support creation of partners via API
 
 **Table of contents**
 
 .. contents::
    :local:
-
-.. !!! Instalation: must only be present if there are very specific installation instructions, such as installing non-python dependencies.The audience is systems administrators. ] To install this module, you need to: !!!
-
-Install
-=======
-
-Do this ...
-
-.. !!! Configuration: This file is optional, it should explain how to configure the module before using it; it is aimed at advanced users. To configure this module, you need to:
 
 Configure
 =========
@@ -116,11 +98,8 @@ Contributors
 
 * `Calyx Servicios S.A. <https://odoo.calyx-cloud.com.ar/>`_
   
-  * Federico Gregori
   * Marco Oegg
-  * Cristian Paradiso
-  * Gabriela Perez
-
+  
 Maintainers
 ~~~~~~~~~~~
 
@@ -133,4 +112,4 @@ This module is maintained by Calyx Servicios S.A.
 CALYX SERVICIOS S.A. is part of the PGK Consultores economic group, member of an important global network, a world organization.
 The PGK Consultores group is one of the 20 largest consultant-studios in Argentina with nearly 300 professionals.
 
-This module is part of the `Calyx <https://github.com/calyx-servicios/calyx.git>`_ project on GitHub.
+This module is part of the `Calyx <https://github.com/calyx-servicios/partner-contact.git>`_ project on GitHub.
