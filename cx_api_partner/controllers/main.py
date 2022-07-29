@@ -9,6 +9,14 @@ _logger = logging.getLogger(__name__)
 
 
 def translate_country(country: str) -> str:
+    """Returns english value for Countries writen in Spanish
+
+    Args:
+        country (str): Country name in spanish
+
+    Returns:
+        str: Country name in English
+    """
     translation_obj = request.env["ir.translation"].with_user(SUPERUSER_ID)
     domain = [
         ("module", "=", "base"),
@@ -21,6 +29,42 @@ def translate_country(country: str) -> str:
 
 def get_partner_values(data: dict) -> dict:
     """Prepares the values for partner creation
+
+    * Name: Mandatory. [name]
+
+    * Company: Mandatory (vat, name or id). [company]
+
+    * Country: Mandatory (name or id). [country]
+
+    * State: Optional [state]
+
+    * City: Optional [city]
+
+    * Street Name: Optional [street_name]
+
+    * Zip Code: Optional [zip]
+
+    * Street Name: Optional [street_name]
+
+    * Phone: Optional [phone]
+
+    * Mobile: Optional [mobile]
+
+    * Email: Optional [email]
+
+    * Website: Optional [website]
+
+    * Category: Optional (name or id) [category]
+
+    * Reference: Optional. Default is empty string. [ref]
+
+    * Vat: Optional [vat]
+
+    * Identification Type: Optional (name or id). Default is VAT. [journal]
+
+    * Responsibility Type: Mandatory depending on the Country (name or id). [responsibility_type]
+
+    * Is Company : Optional (True/False) [is_company]
 
     Args:
         data (dict): Data received from external service.
@@ -91,6 +135,7 @@ def get_partner_values(data: dict) -> dict:
         "category_id": category.id if category else False,
         "vat": str(data.get("vat")),
         "l10n_latam_identification_type_id": get_identification_type_id(data, country),
+        "company_type": "company" if data.get("is_company") else "person",
     }
     responsability_type = get_responsability_type(data, country)
     if responsability_type:
@@ -100,9 +145,20 @@ def get_partner_values(data: dict) -> dict:
 
 
 def get_identification_type_id(data: dict, country: int) -> int:
-    identification_type = data.get("identification_type")
-    if not identification_type:
-        raise ValidationError("identification_type not found")
+    """Returns id for l10n_latam.identification_type_id according to country selected
+
+    Args:
+        data (dict): full external service request
+        country (int): country_id recovered on get_partner_values()
+
+    Raises:
+        ValidationError: If an identification_type different than "VAT" is sent but not found
+        (Error finding correct indentification type. Is localization installed?)
+
+    Returns:
+        int: l10n_latam.identification_type_id
+    """
+    identification_type = data.get("identification_type") or "VAT"
     identification_type = (
         request.env["l10n_latam.identification.type"]
         .sudo()
@@ -121,6 +177,20 @@ def get_identification_type_id(data: dict, country: int) -> int:
 
 
 def get_responsability_type(data: dict, country: models.Model) -> dict or None:
+    """Finds correct responsibility type for Argentina (l10n_ar_afip_responsibility_type_id) or
+     Chile (l10n_cl_sii_taxpayer_type).
+     Method should be edited to support further localizations
+
+    Args:
+        data (dict): full external service request
+        country (models.Model): country_id recovered on get_partner_values()
+
+    Raises:
+        ValidationError: Error ocurred while finding values
+
+    Returns:
+        dict or None: key/value pair to update creation dictionary
+    """
     responsibility_type = data.get("responsibility_type")
     if not responsibility_type:
         return None
@@ -132,7 +202,7 @@ def get_responsability_type(data: dict, country: models.Model) -> dict or None:
                 .search([])
                 .filtered(
                     lambda r: r.id == responsibility_type
-                    or r.name.lower() == responsibility_type.lower()
+                    or r.name.lower() == str(responsibility_type).lower()
                 )
             )
             return {"l10n_ar_afip_responsibility_type_id": responsibility_type.id}
@@ -143,9 +213,9 @@ def get_responsability_type(data: dict, country: models.Model) -> dict or None:
                 "Consumidor Final": "3",
                 "Extranjero": "4",
             }
-            if type(responsibility_type) == str:
+            if len(responsibility_type) > 1:
                 responsibility_type = cl_resp_dict.get(responsibility_type)
-            return {"l10n_cl_sii_taxpayer_type": responsibility_type}
+            return {"l10n_cl_sii_taxpayer_type": str(responsibility_type)}
     except Exception as e:
         raise ValidationError(e)
 
@@ -170,7 +240,10 @@ class ApiPartnerControllers(http.Controller):
                 "country_id",
                 "state_id",
                 "l10n_latam_identification_type_id",
+                "l10n_ar_afip_responsibility_type_id",
+                "l10n_cl_sii_taxpayer_type",
                 "company_id",
+                "company_type",
             ]
             return {"SUCCESS": partner_id.read(easy_access_fields)}
         except Exception as e:
