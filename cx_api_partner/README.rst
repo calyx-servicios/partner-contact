@@ -8,9 +8,9 @@ Calyx Services Partner API
 .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
-.. |badge3| image:: https://img.shields.io/badge/github-calyx--servicios%2Fcalyx-lightgray.png?logo=github
+.. |badge3| image:: https://img.shields.io/badge/github-calyx--servicios%2Fpartner--contact-lightgray.png?logo=github
     :target: https://github.com/calyx-servicios/partner-contact.git
-    :alt: calyx-servicios/calyx.git
+    :alt: calyx-servicios/partner-contact.git
 
 |badge1| |badge2| |badge3|
 
@@ -112,4 +112,4 @@ This module is maintained by Calyx Servicios S.A.
 CALYX SERVICIOS S.A. is part of the PGK Consultores economic group, member of an important global network, a world organization.
 The PGK Consultores group is one of the 20 largest consultant-studios in Argentina with nearly 300 professionals.
 
-This module is part of the `Calyx <https://github.com/calyx-servicios/partner-contact.git>`_ project on GitHub.
+This module is part of the `Partner Contact <https://github.com/calyx-servicios/partner-contact.git>`_ project on GitHub.
