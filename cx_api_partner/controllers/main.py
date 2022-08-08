@@ -44,8 +44,6 @@ def get_partner_values(data: dict) -> dict:
 
     * Zip Code: Optional [zip]
 
-    * Street Name: Optional [street_name]
-
     * Phone: Optional [phone]
 
     * Mobile: Optional [mobile]
@@ -56,11 +54,9 @@ def get_partner_values(data: dict) -> dict:
 
     * Category: Optional (name or id) [category]
 
-    * Reference: Optional. Default is empty string. [ref]
-
     * Vat: Optional [vat]
 
-    * Identification Type: Optional (name or id). Default is VAT. [journal]
+    * Identification Type: Optional (name or id). Default is VAT. [identification_type]
 
     * Responsibility Type: Mandatory depending on the Country (name or id). [responsibility_type]
 
