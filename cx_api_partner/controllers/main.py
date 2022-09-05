@@ -27,6 +27,30 @@ def translate_country(country: str) -> str:
     return translated_country.src if translated_country else country
 
 
+def translate_identification_type(identification_type: str) -> str:
+    """Returns english value for l10n_latam.identification.type writen in Spanish.
+
+    Args:
+        identification_type (str): identification_type name in spanish
+
+    Returns:
+        str: identification_type name in English
+    """
+    #possibly overkill since the only translated identification type is Passport
+    translation_obj = request.env["ir.translation"].with_user(SUPERUSER_ID)
+    domain = [
+        ("module", "=", "l10n_latam_base"),
+        ("lang", "in", ["es_AR", "es_CL", "es_PY", "es_UY", "es"]),
+        ("value", "=", identification_type),
+    ]
+    translated_identification_type = translation_obj.search(domain, limit=1)
+    return (
+        translated_identification_type.src
+        if translated_identification_type
+        else identification_type
+    )
+
+
 def get_partner_values(data: dict) -> dict:
     """Prepares the values for partner creation
 
@@ -159,12 +183,14 @@ def get_identification_type_id(data: dict, country: int) -> int:
         int: l10n_latam.identification_type_id
     """
     identification_type = data.get("identification_type") or "VAT"
+    translated_identification_type = translate_identification_type(identification_type)
     identification_type = (
         request.env["l10n_latam.identification.type"]
         .sudo()
         .search(["|", ("country_id", "=", country.id), ("country_id", "=", False)])
         .filtered(
             lambda c: c.name.lower() == str(identification_type).lower()
+            or c.name.lower() == translated_identification_type.lower()
             or c.id == identification_type
         )
     )
