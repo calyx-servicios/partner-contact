@@ -51,7 +51,7 @@ def translate_identification_type(identification_type: str) -> str:
     )
 
 
-def get_partner_values(data: dict, partner_id: models.Model = None) -> dict:
+def get_partner_values(data: dict) -> dict:
     """Prepares the values for partner creation
 
     * Name: Mandatory. [name]
@@ -96,40 +96,38 @@ def get_partner_values(data: dict, partner_id: models.Model = None) -> dict:
     Returns:
         dict: Values for partner creation
     """
-    name = data.get("name", getattr(partner_id, "name"))
+    name = data.get("name")
     if not name:
         raise ValidationError("Name not found")
 
-    company = data.get("company", getattr(partner_id, "company_id"))
+    company = data.get("company")
     if not company:
         raise ValidationError("Company not found")
-    if not isinstance(company, models.Model):
-        company = (
-            request.env["res.company"]
-            .sudo()
-            .search([])
-            .filtered(
-                lambda c: c.vat == str(company)
-                or c.name.lower() == str(company).lower()
-                or c.id == company
-            )
+    company = (
+        request.env["res.company"]
+        .sudo()
+        .search([])
+        .filtered(
+            lambda c: c.vat == str(company)
+            or c.name.lower() == str(company).lower()
+            or c.id == company
         )
-    country = data.get("country", getattr(partner_id, "country_id"))
+    )
+    country = data.get("country")
     if not country:
         raise ValidationError("Country not found")
-    if not isinstance(country, models.Model):
-        if type(country) == str:
-            country = translate_country(country)
-        country = (
-            request.env["res.country"]
-            .sudo()
-            .search([])
-            .filtered(
-                lambda c: c.name.lower() == str(country).lower() or c.id == country
-            )
+    if type(country) == str:
+        country = translate_country(country)
+    country = (
+        request.env["res.country"]
+        .sudo()
+        .search([])
+        .filtered(
+            lambda c: c.name.lower() == str(country).lower() or c.id == country
         )
-    state = data.get("state", getattr(partner_id, "state_id"))
-    if state and not isinstance(state, models.Model):
+    )
+    state = data.get("state")
+    if state:
         state = (
             request.env["res.state"]
             .sudo()
@@ -137,8 +135,8 @@ def get_partner_values(data: dict, partner_id: models.Model = None) -> dict:
             .filtered(lambda c: c.name.lower() == str(state).lower() or c.id == state)
         )
 
-    category = data.get("category", getattr(partner_id, "category_id"))
-    if category and not isinstance(state, models.Model):
+    category = data.get("category")
+    if category:
         category = (
             request.env["res.partner.category"]
             .sudo()
@@ -151,17 +149,17 @@ def get_partner_values(data: dict, partner_id: models.Model = None) -> dict:
     values = {
         "name": name,
         "company_id": company.id,
-        "ref": data.get("ref") or partner_id.ref,
+        "ref": data.get("ref"),
         "country_id": country.id,
         "state_id": state.id if state else False,
-        "street_name": data.get("street_name") or partner_id.street_name,
-        "zip": data.get("zip") or partner_id.zip,
-        "phone": data.get("phone") or partner_id.phone,
-        "mobile": data.get("mobile") or partner_id.mobile,
-        "email": data.get("email") or partner_id.email,
-        "website": data.get("website") or partner_id.website,
+        "street_name": data.get("street_name"),
+        "zip": data.get("zip"),
+        "phone": data.get("phone"),
+        "mobile": data.get("mobile"),
+        "email": data.get("email"),
+        "website": data.get("website"),
         "category_id": category.id if category else False,
-        "vat": str(data.get("vat")) or partner_id.vat,
+        "vat": str(data.get("vat")),
         "l10n_latam_identification_type_id": get_identification_type_id(data, country),
         "company_type": "company" if data.get("is_company") else "person",
     }
@@ -269,7 +267,7 @@ class ApiPartnerControllers(http.Controller):
         try:
             partner_id = get_partner_id("id",data.get('id'))
             if partner_id:
-                values = get_partner_values(data, partner_id)
+                values = get_partner_values(data)
                 partner_id.write(values)
             else:
                 partner_obj = request.env["res.partner"].with_user(SUPERUSER_ID)
