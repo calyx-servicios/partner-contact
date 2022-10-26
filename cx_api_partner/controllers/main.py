@@ -247,9 +247,10 @@ def get_responsability_type(data: dict, country: models.Model) -> dict or None:
     except Exception as e:
         raise ValidationError(e)
 
-def get_partner_id(field, value):
+def get_partner_id(field, value,company_id=False,force_company=False):
     partner_obj = request.env["res.partner"].with_user(SUPERUSER_ID)
-    partner_id = partner_obj.search([(field, "=", value)])
+    companies = [company_id,False] if not force_company else [company_id]
+    partner_id = partner_obj.search([(field, "=", value),("company_id","in",companies)])
     if len(partner_id) > 1:
         raise ValidationError("Multiple Partners Found")
     return partner_id
@@ -265,13 +266,13 @@ class ApiPartnerControllers(http.Controller):
     def create_partner(self, **kwargs):
         data = kwargs
         try:
+            values = get_partner_values(data)
             partner_id = get_partner_id("id",data.get('id'))
             if partner_id:
-                values = get_partner_values(data)
                 partner_id.write(values)
             else:
                 partner_obj = request.env["res.partner"].with_user(SUPERUSER_ID)
-                values = get_partner_values(data)
+                # values = get_partner_values(data)
                 partner_id = partner_obj.create(values)
             easy_access_fields = [
                 "name",
@@ -286,4 +287,5 @@ class ApiPartnerControllers(http.Controller):
             return {"SUCCESS": partner_id.read(easy_access_fields)}
         except Exception as e:
             _logger.error(e)
+            request.env.cr.rollback()
             return {"ERROR": e}
