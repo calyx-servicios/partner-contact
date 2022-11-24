@@ -101,18 +101,17 @@ def get_partner_values(data: dict) -> dict:
         raise ValidationError("Name not found")
 
     company = data.get("company")
-    if not company:
-        raise ValidationError("Company not found")
-    company = (
-        request.env["res.company"]
-        .sudo()
-        .search([])
-        .filtered(
-            lambda c: c.vat == str(company)
-            or c.name.lower() == str(company).lower()
-            or c.id == company
+    if company:
+        company = (
+            request.env["res.company"]
+            .sudo()
+            .search([])
+            .filtered(
+                lambda c: c.vat == str(company)
+                or c.name.lower() == str(company).lower()
+                or c.id == company
+            )
         )
-    )
     country = data.get("country")
     if not country:
         raise ValidationError("Country not found")
