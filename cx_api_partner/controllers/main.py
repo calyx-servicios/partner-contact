@@ -147,7 +147,7 @@ def get_partner_values(data: dict) -> dict:
 
     values = {
         "name": name,
-        "company_id": company.id,
+        "company_id": company.id if company else False,
         "ref": data.get("ref"),
         "country_id": country.id,
         "state_id": state.id if state else False,
