@@ -128,7 +128,7 @@ def get_partner_values(data: dict) -> dict:
     state = data.get("state")
     if state:
         state = (
-            request.env["res.state"]
+            request.env["res.country.state"]
             .sudo()
             .search([("country_id", "=", country.id)])
             .filtered(lambda c: c.name.lower() == str(state).lower() or c.id == state)
