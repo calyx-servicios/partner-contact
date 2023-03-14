@@ -19,7 +19,7 @@
         "python": [],
         "bin": [],
     },
-    "depends": ["base", "contacts", "auth_jwt"],
+    "depends": ["base", "contacts", "auth_jwt","base_address_extended"],
     'data': [
         'data/res_users_data.xml',
         'data/auth_jwt_validators.xml',
