@@ -36,7 +36,7 @@ def translate_identification_type(identification_type: str) -> str:
     Returns:
         str: identification_type name in English
     """
-    #possibly overkill since the only translated identification type is Passport
+    # possibly overkill since the only translated identification type is Passport
     translation_obj = request.env["ir.translation"].with_user(SUPERUSER_ID)
     domain = [
         ("module", "=", "l10n_latam_base"),
@@ -121,9 +121,7 @@ def get_partner_values(data: dict) -> dict:
         request.env["res.country"]
         .sudo()
         .search([])
-        .filtered(
-            lambda c: c.name.lower() == str(country).lower() or c.id == country
-        )
+        .filtered(lambda c: c.name.lower() == str(country).lower() or c.id == country)
     )
     state = data.get("state")
     if state:
@@ -140,9 +138,7 @@ def get_partner_values(data: dict) -> dict:
             request.env["res.partner.category"]
             .sudo()
             .search([])
-            .filtered(
-                lambda c: c.name.lower() == str(category).lower() or c.id == category
-            )
+            .filtered(lambda c: c.name.lower() == str(category).lower() or c.id == category)
         )
 
     values = {
@@ -246,12 +242,14 @@ def get_responsability_type(data: dict, country: models.Model) -> dict or None:
     except Exception as e:
         raise ValidationError(e)
 
+
 def get_partner_id(field, value):
     partner_obj = request.env["res.partner"].with_user(SUPERUSER_ID)
     partner_id = partner_obj.search([(field, "=", value)])
     if len(partner_id) > 1:
         raise ValidationError("Multiple Partners Found")
     return partner_id
+
 
 class ApiPartnerControllers(http.Controller):
     @http.route(
@@ -264,7 +262,7 @@ class ApiPartnerControllers(http.Controller):
     def create_partner(self, **kwargs):
         data = kwargs
         try:
-            partner_id = get_partner_id("id",data.get('id'))
+            partner_id = get_partner_id("id", data.get("id"))
             if partner_id:
                 values = get_partner_values(data)
                 partner_id.write(values)
@@ -277,11 +275,13 @@ class ApiPartnerControllers(http.Controller):
                 "country_id",
                 "state_id",
                 "l10n_latam_identification_type_id",
-                "l10n_ar_afip_responsibility_type_id",
-                "l10n_cl_sii_taxpayer_type",
                 "company_id",
                 "company_type",
             ]
+            if hasattr(partner_id, "l10n_ar_afip_responsibility_type_id"):
+                easy_access_fields.append("l10n_ar_afip_responsibility_type_id")
+            if hasattr(partner_id, "l10n_cl_sii_taxpayer_type"):
+                easy_access_fields.append("l10n_cl_sii_taxpayer_type")
             return {"SUCCESS": partner_id.read(easy_access_fields)}
         except Exception as e:
             _logger.error(e)
