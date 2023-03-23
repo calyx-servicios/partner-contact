@@ -285,4 +285,5 @@ class ApiPartnerControllers(http.Controller):
             return {"SUCCESS": partner_id.read(easy_access_fields)}
         except Exception as e:
             _logger.error(e)
+            request.env.cr.rollback()
             return {"ERROR": e}
