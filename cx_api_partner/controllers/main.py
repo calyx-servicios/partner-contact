@@ -148,6 +148,8 @@ def get_partner_values(data: dict) -> dict:
         "country_id": country.id,
         "state_id": state.id if state else False,
         "street_name": data.get("street_name"),
+        "street_number": data.get("street_number"),
+        "street_number2": data.get("street_number2"),
         "zip": data.get("zip"),
         "phone": data.get("phone"),
         "mobile": data.get("mobile"),
