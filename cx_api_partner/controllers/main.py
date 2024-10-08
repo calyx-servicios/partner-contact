@@ -132,14 +132,14 @@ def get_partner_values(data: dict) -> dict:
             .filtered(lambda c: c.name.lower() == str(state).lower() or c.id == state)
         )
 
-    category = data.get("category")
-    if category:
-        category = (
-            request.env["res.partner.category"]
-            .sudo()
-            .search([])
-            .filtered(lambda c: c.name.lower() == str(category).lower() or c.id == category)
-        )
+    # category = data.get("category")
+    # if category:
+    #     category = (
+    #         request.env["res.partner.category"]
+    #         .sudo()
+    #         .search([])
+    #         .filtered(lambda c: c.name.lower() == str(category).lower() or c.id == category)
+    #     )
 
     values = {
         "name": name,
@@ -155,7 +155,7 @@ def get_partner_values(data: dict) -> dict:
         "mobile": data.get("mobile"),
         "email": data.get("email"),
         "website": data.get("website"),
-        "category_id": category.id if category else False,
+        # "category_id": [(6, 0, [category.id])] if category else False,
         "vat": str(data.get("vat")),
         "l10n_latam_identification_type_id": get_identification_type_id(data, country),
         "company_type": "company" if data.get("is_company") else "person",
