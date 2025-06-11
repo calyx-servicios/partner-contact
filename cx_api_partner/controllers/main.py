@@ -262,6 +262,7 @@ class ApiPartnerControllers(http.Controller):
         website=True,
     )
     def create_partner(self, **kwargs):
+        _logger.info("API Request received - create_partner: %s", kwargs)
         data = kwargs
         try:
             partner_id = get_partner_id("id", data.get("id"))
