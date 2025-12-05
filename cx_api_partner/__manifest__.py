@@ -11,17 +11,22 @@
     "website": "https://odoo.calyx-cloud.com.ar/",
     "license": "AGPL-3",
     "category": "Technical Settings",
-    "version": "13.0.1.0.0",
+    "version": "13.0.2.0",
     "development_status": "Production/Stable",
     "application": False,
     "installable": True,
     "external_dependencies": {
-        "python": [],
         "bin": [],
     },
     "depends": ["base", "contacts", "auth_jwt","base_address_extended"],
     'data': [
+        'security/ir.model.access.csv',
         'data/res_users_data.xml',
         'data/auth_jwt_validators.xml',
+        'views/menus.xml',
+        'views/res_config_settings_views.xml',
+    ],
+    'i18n': [
+        'i18n/es_AR.po',
     ],
 }

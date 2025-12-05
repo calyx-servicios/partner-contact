@@ -1,11 +1,53 @@
+import json
 import logging
-from datetime import datetime
 
+from jose import jwt
 from odoo import http, models, fields, SUPERUSER_ID, _
-from odoo.http import request
 from odoo.exceptions import ValidationError
+from odoo.http import request
 
 _logger = logging.getLogger(__name__)
+
+
+def _queue_forward_request(company, body, headers, method="POST", reference=None):
+    """Insert a forward request into the queue for later processing.
+    
+    Args:
+        company: res.company instance
+        body: Request body (bytes or string)
+        headers: Request headers dict
+        method: HTTP method (default POST)
+        reference: Optional custom reference; auto-generated if not provided
+    """
+    payload_str = (
+        body.decode("utf-8", errors="replace")
+        if isinstance(body, (bytes, bytearray))
+        else str(body or "")
+    )
+    try:
+        headers_str = json.dumps(headers)
+    except Exception:  # pragma: no cover - fallback safety
+        headers_str = str(headers)
+    
+    # Create reference for tracking if not provided
+    if not reference:
+        reference = f"partner_{company.id}_{request.httprequest.remote_addr}_{len(payload_str)}"
+    
+    # Insert into forward_queue table
+    try:
+        forward_queue_model = request.env["cx_api_partner_forward_queue.forward_queue"].sudo()
+        forward_queue_model.create({
+            "reference": reference,
+            "company_id": company.id,
+            "url": "",  # Will be set by the job using company config
+            "method": method,
+            "payload": payload_str,
+            "headers": headers_str,
+            "status": "pending",
+            "attempts": 0,
+        })
+    except Exception as e:
+        _logger.error("Failed to insert into forward_queue: %s", str(e))
 
 
 def translate_country(country: str) -> str:
@@ -285,7 +327,22 @@ class ApiPartnerControllers(http.Controller):
                 easy_access_fields.append("l10n_ar_afip_responsibility_type_id")
             if hasattr(partner_id, "l10n_cl_sii_taxpayer_type"):
                 easy_access_fields.append("l10n_cl_sii_taxpayer_type")
-            return {"SUCCESS": partner_id.read(easy_access_fields)}
+            response_payload = {"SUCCESS": partner_id.read(easy_access_fields)}
+            
+            company = request.env.company
+            settings = company.get_contact_forward_settings()
+            if settings.get("enabled"):
+                # Queue the request for later processing (async)
+                # Don't wait for the forward to complete; queue and return immediately
+                _queue_forward_request(
+                    company,
+                    request.httprequest.get_data() or b"",
+                    dict(request.httprequest.headers),
+                    method=request.httprequest.method,
+                    reference=f"partner_{partner_id.vat}",
+                )
+            
+            return response_payload
         except Exception as e:
             _logger.error(e)
             request.env.cr.rollback()

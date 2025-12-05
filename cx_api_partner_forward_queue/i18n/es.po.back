@@ -1,0 +1,114 @@
+# Translation of cx_api_partner_forward_queue to Spanish
+msgid ""
+msgstr "Project-Id-Version: cx_api_partner_forward_queue\nPOT-Creation-Date: 2025-12-03 00:00+0000\nPO-Revision-Date: 2025-12-03 00:00+0000\nLanguage: es\nMIME-Version: 1.0\nContent-Type: text/plain; charset=UTF-8\nContent-Transfer-Encoding: 8bit\nPlural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "API Partner - Forward Queue"
+msgstr "API Partner - Cola de Reenvío"
+
+msgid "Forward Queue"
+msgstr "Cola de Reenvío"
+
+msgid "Reference"
+msgstr "Referencia"
+
+msgid "Unique identifier for this forward request"
+msgstr "Identificador único para esta solicitud de reenvío"
+
+msgid "Company"
+msgstr "Compañía"
+
+msgid "Target URL"
+msgstr "URL Destino"
+
+msgid "Full URL where the request will be forwarded"
+msgstr "URL completa donde se reenviará la solicitud"
+
+msgid "HTTP Method"
+msgstr "Método HTTP"
+
+msgid "Payload"
+msgstr "Carga útil"
+
+msgid "Request body (JSON format)"
+msgstr "Cuerpo de la solicitud (formato JSON)"
+
+msgid "Headers"
+msgstr "Encabezados"
+
+msgid "Request headers (JSON format)"
+msgstr "Encabezados de la solicitud (formato JSON)"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Current state of the forward request"
+msgstr "Estado actual de la solicitud de reenvío"
+
+msgid "Pending"
+msgstr "Pendiente"
+
+msgid "Success"
+msgstr "Exitoso"
+
+msgid "Failed"
+msgstr "Fallido"
+
+msgid "Retry Pending"
+msgstr "Reintentar Pendiente"
+
+msgid "Attempts Made"
+msgstr "Intentos Realizados"
+
+msgid "Number of attempts made to forward this request"
+msgstr "Número de intentos realizados para reenviar esta solicitud"
+
+msgid "HTTP Status"
+msgstr "Estado HTTP"
+
+msgid "HTTP status code from the last attempt"
+msgstr "Código de estado HTTP del último intento"
+
+msgid "Error Message"
+msgstr "Mensaje de Error"
+
+msgid "Error message from the last failed attempt"
+msgstr "Mensaje de error del último intento fallido"
+
+msgid "Response"
+msgstr "Respuesta"
+
+msgid "Response body from the last attempt"
+msgstr "Cuerpo de la respuesta del último intento"
+
+msgid "Created"
+msgstr "Creado"
+
+msgid "Updated"
+msgstr "Actualizado"
+
+msgid "Forward Queue Entry"
+msgstr "Entrada de Cola de Reenvío"
+
+msgid "No pending forwards found."
+msgstr "No se encontraron reenvíos pendientes."
+
+msgid "Pending API forwards will appear here."
+msgstr "Los reenvíos de API pendientes aparecerán aquí."
+
+msgid "Forward Queue (Tree)"
+msgstr "Cola de Reenvío (Lista)"
+
+msgid "Forward Queue (Form)"
+msgstr "Cola de Reenvío (Formulario)"
+
+msgid "Forward Queue (Search)"
+msgstr "Cola de Reenvío (Búsqueda)"
+
+msgid "Created Today"
+msgstr "Creado Hoy"
+
+msgid "Group By"
+msgstr "Agrupar por"
+
+msgid "Method"
+msgstr "Método"
