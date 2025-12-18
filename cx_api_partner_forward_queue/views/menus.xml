@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Root App menu for Forward Queue -->
+        <menuitem 
+            id="cx_api_partner_forward_queue_menu_root" 
+            name="Forward Queue" 
+            web_icon="cx_api_partner_forward_queue,static/description/icon.png" 
+            sequence="90"
+        />
+
+        <!-- Place existing list action under this app -->
+        <menuitem
+            id="cx_api_partner_forward_queue_menu"
+            name="Forward Queue"
+            parent="cx_api_partner_forward_queue_menu_root"
+            action="cx_api_partner_forward_queue_action"
+            groups="base.group_system"
+            sequence="10"/>
+    </data>
+</odoo>
+ 

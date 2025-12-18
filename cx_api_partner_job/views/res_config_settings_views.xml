@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_res_config_settings_cx_api_partner_job" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.cx.api.partner.job</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="20"/>
+            <field name="inherit_id" ref="cx_api_partner.view_res_config_settings_cx_api_partner"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@id='cx_api_partner_config']" position="inside">
+                    <div class="col-12 col-lg-12 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <h3>Forward API Configuration</h3>
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <group>
+                                        <field name="api_base_url"/>
+                                        <field name="api_endpoint"/>
+                                        <field name="api_audience"/>
+                                        <field name="api_issuer"/>
+                                        <field name="api_key" password="True"/>
+                                        <field name="api_timeout"/>
+                                    </group>
+                                    <p class="text-muted">Set the external API credentials used by the forward queue job.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

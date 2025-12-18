@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_forward_queue_admin,access forward queue admin,cx_api_partner_forward_queue.model_cx_api_partner_forward_queue_forward_queue,base.group_system,1,1,1,1

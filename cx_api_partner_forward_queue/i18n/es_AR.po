@@ -1,0 +1,131 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* cx_api_partner_forward_queue
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-05 00:00+0000\n"
+"PO-Revision-Date: 2025-12-05 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.model,name:cx_api_partner_forward_queue.model_cx_api_partner_forward_queue_forward_queue
+msgid "Forward Queue"
+msgstr "Cola de Reenvío"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_tree
+msgid "Reference"
+msgstr "Referencia"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_tree
+msgid "Company"
+msgstr "Empresa"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_tree
+msgid "URL"
+msgstr "URL"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_tree
+msgid "Method"
+msgstr "Método"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_tree
+msgid "Status"
+msgstr "Estado"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_tree
+msgid "Attempts"
+msgstr "Intentos"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_tree
+msgid "Created"
+msgstr "Creado"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_form
+msgid "Payload"
+msgstr "Carga"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_form
+msgid "Headers"
+msgstr "Encabezados"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_form
+msgid "Response"
+msgstr "Respuesta"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_form
+msgid "Timestamps"
+msgstr "Marcas de Tiempo"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_search
+msgid "Pending"
+msgstr "Pendiente"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_search
+msgid "Success"
+msgstr "Exitoso"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_search
+msgid "Failed"
+msgstr "Fallido"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_search
+msgid "Retry Pending"
+msgstr "Reintentar Pendiente"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_search
+msgid "Created Today"
+msgstr "Creado Hoy"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_search
+msgid "Group By"
+msgstr "Agrupar Por"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_search
+msgid "No pending forwards found."
+msgstr "No se encontraron reenvíos pendientes."
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.view,arch_db:cx_api_partner_forward_queue.cx_api_partner_forward_queue_search
+msgid "Pending API forwards will appear here."
+msgstr "Los reenvíos de API pendientes aparecerán aquí."
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.actions.act_window,name:cx_api_partner_forward_queue.cx_api_partner_forward_queue_action
+msgid "Forward Queue"
+msgstr "Cola de Reenvío"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.menu,name:cx_api_partner_forward_queue.cx_api_partner_forward_queue_menu_root
+msgid "Forward Queue"
+msgstr "Cola de Reenvío"
+
+#. module: cx_api_partner_forward_queue
+#: model:ir.ui.menu,name:cx_api_partner_forward_queue.cx_api_partner_forward_queue_menu
+msgid "Forward Queue"
+msgstr "Cola de Reenvío"

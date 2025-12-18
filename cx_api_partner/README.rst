@@ -25,6 +25,17 @@ Configure
 =========
 
 * Go to Users & Companies > JWT Validators > cx_api_partner and configure the Issuer and the Secret Key.
+* In Settings > General Settings > Contacts (Contact Forwarding) configure the forwarding target when you need to mirror the
+    incoming requests:
+
+    - **Enable Contact Forwarding**: Activates the forwarding flow.
+    - **Forward Base URL** and **Forward Endpoint**: Concatenated to build the final URL.
+    - **JWT (Audience/Issuer/Secret Key)**: Used to sign the Bearer token that the destination endpoint will receive.
+    - **Timeout / Retry Options**: Define the maximum time and number of attempts with backoff.
+
+    When forwarding is active and the payload includes `contactos-redirect`, the module will queue the request to be processed asynchronously.
+    All queued requests are stored in the companion module `cx_api_partner_forward_queue` for later processing via a scheduled job.
+    The partner creation in Odoo is **not** blocked by the forwarding operation - it happens independently.
 
 Usage
 =====
