@@ -23,7 +23,6 @@
         'security/ir.model.access.csv',
         'data/res_users_data.xml',
         'data/auth_jwt_validators.xml',
-        'views/menus.xml',
         'views/res_config_settings_views.xml',
     ],
     'i18n': [
