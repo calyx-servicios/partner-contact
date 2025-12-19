@@ -7,7 +7,9 @@
     "license": "AGPL-3",
     "depends": ["cx_api_partner"],
     "data": [
+        "security/groups.xml",
         "security/ir.model.access.csv",
+        "security/ir_rule.xml",
         "views/forward_queue_views.xml",
         "views/menus.xml",
     ],

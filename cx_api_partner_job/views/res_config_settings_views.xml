@@ -13,7 +13,7 @@
                             <h3>Forward API Configuration</h3>
                             <div class="content-group">
                                 <div class="mt16">
-                                    <group>
+                                    <group groups="cx_api_partner_job.group_forward_queue_job_manager">
                                         <field name="api_base_url"/>
                                         <field name="api_endpoint"/>
                                         <field name="api_audience"/>

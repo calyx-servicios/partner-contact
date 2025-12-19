@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Group for API Partner Configuration -->
+        <record id="group_api_partner_manager" model="res.groups">
+            <field name="name">API Partner Configuration Manager</field>
+            <field name="comment">Users in this group can manage API Partner settings and contact forwarding configuration</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+    </data>
+</odoo>

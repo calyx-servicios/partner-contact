@@ -15,7 +15,7 @@
             name="Forward Queue"
             parent="cx_api_partner_forward_queue_menu_root"
             action="cx_api_partner_forward_queue_action"
-            groups="base.group_system"
+            groups="cx_api_partner_forward_queue.group_forward_queue_manager"
             sequence="10"/>
     </data>
 </odoo>

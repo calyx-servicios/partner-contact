@@ -1,1 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_config_settings_manager,Access res.config.settings (Manager),model_res_config_settings,cx_api_partner.group_api_partner_manager,1,1,1,1
+access_res_company_manager,Access res.company (Manager),model_res_company,cx_api_partner.group_api_partner_manager,1,1,1,1

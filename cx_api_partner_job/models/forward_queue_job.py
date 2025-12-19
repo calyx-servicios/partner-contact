@@ -68,7 +68,6 @@ class ForwardQueueJob(models.AbstractModel):
         url = f"{base_url}{endpoint}"
 
         queue_model = self.env["cx_api_partner_forward_queue.forward_queue"].sudo()
-        pending = queue_model.search([("status", "=", "pending")], limit=50, order="created_at asc")
         
         try:
             headers = self._headers(company)
@@ -76,21 +75,17 @@ class ForwardQueueJob(models.AbstractModel):
             _logger.error("Cannot create JWT token: %s", str(ex))
             return True
         
-        for item in pending:
+        pending = queue_model.search([("status", "=", "pending")], limit=50, order="created_at asc")
+        retry_pending = queue_model.search([("status", "=", "retry_pending")], limit=25, order="created_at asc")
+        
+        # Combine both lists for processing
+        items_to_process = list(pending) + list(retry_pending)
+        
+        _logger.info(f"Forward queue processing: {len(pending)} pending + {len(retry_pending)} retry_pending = {len(items_to_process)} total")
+        
+        for item in items_to_process:
             try:
-                payload = {
-                    "jsonrpc": "2.0",
-                    "method": "call",
-                    "params": {
-                        "company_id": item.company_id.id,
-                        "reference": item.reference,
-                        "body": item.payload or "",
-                        "headers": item.headers or "{}",
-                        "method": item.method or "POST",
-                    },
-                }
-                
-                res = requests.post(url, data=json.dumps(payload), headers=headers, timeout=timeout)
+                res = requests.post(url, data=json.dumps(json.loads(item.payload)), headers=headers, timeout=timeout)
                 is_success, error_msg = self._is_success(res)
                 
                 if is_success:

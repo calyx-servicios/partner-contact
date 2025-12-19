@@ -110,14 +110,5 @@
             </field>
         </record>
 
-        <!-- Menu item -->
-        <menuitem
-            id="cx_api_partner_forward_queue_menu"
-            name="Forward Queue"
-            parent="cx_api_partner.cx_api_partner_menu_root"
-            action="cx_api_partner_forward_queue_action"
-            groups="base.group_system"
-            sequence="10"/>
-
     </data>
 </odoo>

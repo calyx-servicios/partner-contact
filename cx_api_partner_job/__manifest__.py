@@ -9,6 +9,7 @@
     "category": "Technical Settings",
     "depends": ["cx_api_partner", "cx_api_partner_forward_queue"],
     "data": [
+        "security/groups.xml",
         "data/ir_cron.xml",
         "security/ir.model.access.csv",
         "views/res_config_settings_views.xml",

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Group for Forward Queue Management -->
+        <record id="group_forward_queue_manager" model="res.groups">
+            <field name="name">Forward Queue Manager</field>
+            <field name="comment">Users in this group can manage forward queue settings and view pending forwards</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+        </record>
+    </data>
+</odoo>

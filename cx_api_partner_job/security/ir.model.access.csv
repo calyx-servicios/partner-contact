@@ -1,2 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_forward_queue_job,access.forward.queue.job,model_cx_api_partner_job_forward_queue_job,base.group_system,1,1,1,1
+access_forward_queue_job_manager,Access Forward Queue Job (Manager),model_cx_api_partner_job_forward_queue_job,cx_api_partner_job.group_forward_queue_job_manager,1,1,1,1
+access_res_config_settings_manager,Access res.config.settings (Manager),model_res_config_settings,cx_api_partner_job.group_forward_queue_job_manager,1,1,1,1
+access_res_company_manager,Access res.company (Manager),model_res_company,cx_api_partner_job.group_forward_queue_job_manager,1,1,1,1

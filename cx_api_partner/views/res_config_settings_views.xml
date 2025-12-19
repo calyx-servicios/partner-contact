@@ -9,7 +9,7 @@
             <xpath expr="//div[hasclass('settings')]" position="inside">
                 <div class="app_settings_block" data-string="Contact Forwarding" string="Contact Forwarding" data-key="cx_api_partner">
                     <h2>
-                        Contact Forwarding <field name="contact_forward_enabled" widget="boolean_toggle" onchange="_check_forward_queue_module"/>
+                        Contact Forwarding <field name="contact_forward_enabled" widget="boolean_toggle" onchange="_check_forward_queue_module" groups="cx_api_partner.group_api_partner_manager"/>
                     </h2>
                     <div class="row mt16 o_settings_container" id="cx_api_partner_config">
                         <div class="col-12 col-lg-12 o_setting_box">
