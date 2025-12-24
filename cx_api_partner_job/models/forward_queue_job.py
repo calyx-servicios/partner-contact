@@ -98,8 +98,7 @@ class ForwardQueueJob(models.AbstractModel):
                     })
                 else:
                     # Determine if retryable
-                    is_retryable = res.status_code < 500 or res.status_code >= 600
-                    new_status = "retry_pending" if is_retryable and item.attempts < 3 else "failed"
+                    new_status = "retry_pending" if item.attempts < 5 else "failed"
                     item.write({
                         "status": new_status,
                         "attempts": item.attempts + 1,
@@ -108,14 +107,14 @@ class ForwardQueueJob(models.AbstractModel):
                     })
                     
             except requests.Timeout:
-                new_status = "retry_pending" if item.attempts < 3 else "failed"
+                new_status = "retry_pending" if item.attempts < 5 else "failed"
                 item.write({
                     "status": new_status,
                     "attempts": item.attempts + 1,
                     "error_message": "Request timeout",
                 })
             except requests.ConnectionError as ex:
-                new_status = "retry_pending" if item.attempts < 3 else "failed"
+                new_status = "retry_pending" if item.attempts < 5 else "failed"
                 item.write({
                     "status": new_status,
                     "attempts": item.attempts + 1,
