@@ -307,7 +307,21 @@ class ApiPartnerControllers(http.Controller):
         _logger.info("API Request received - create_partner: %s", kwargs)
         data = kwargs
         try:
-            partner_id = get_partner_id("id", data.get("id"))
+            company = request.env.company
+            settings = company.get_contact_forward_settings()
+            
+            partner_id = None
+            # If 'id' is present in body, it's an update request
+            if data.get("id"):
+                # Determine search strategy based on configuration
+                if settings.get("forward_by_vat"):
+                    # Search by VAT (for Metafar)
+                    vat = data.get("vat")
+                    partner_id = get_partner_id("vat", str(vat)) if vat else None
+                else:
+                    # Search by ID (for Farmapay)
+                    partner_id = get_partner_id("id", data.get("id"))
+            
             if partner_id:
                 values = get_partner_values(data)
                 partner_id.write(values)
@@ -329,8 +343,6 @@ class ApiPartnerControllers(http.Controller):
                 easy_access_fields.append("l10n_cl_sii_taxpayer_type")
             response_payload = {"SUCCESS": partner_id.read(easy_access_fields)}
             
-            company = request.env.company
-            settings = company.get_contact_forward_settings()
             if settings.get("enabled"):
                 # Queue the request for later processing (async)
                 # Don't wait for the forward to complete; queue and return immediately

@@ -8,6 +8,14 @@ class ResCompany(models.Model):
         string="Contact forwarding enabled",
         default=False,
     )
+    
+    contact_forward_by_vat = fields.Boolean(
+        string="Forward updates by VAT",
+        default=False,
+        help="When enabled, the 'id' field will be removed from forwarded payloads, "
+             "forcing the external system to search/update by VAT instead of ID. "
+             "Use this for systems like Metafar that identify contacts by VAT.",
+    )
 
     def write(self, vals):
         """Log when contact_forward_enabled is changed"""
@@ -37,8 +45,11 @@ class ResCompany(models.Model):
         Returns a dictionary with contact forwarding settings.
         
         Returns:
-            dict: Dictionary with 'enabled' key indicating if forwarding is active
+            dict: Dictionary with:
+                - 'enabled': bool indicating if forwarding is active
+                - 'forward_by_vat': bool indicating if id should be removed from payload
         """
         return {
             "enabled": self.contact_forward_enabled,
+            "forward_by_vat": self.contact_forward_by_vat,
         }

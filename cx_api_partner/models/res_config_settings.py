@@ -10,6 +10,15 @@ class ResConfigSettings(models.TransientModel):
         related="company_id.contact_forward_enabled",
         readonly=False,
     )
+    
+    contact_forward_by_vat = fields.Boolean(
+        string="Forward updates by VAT",
+        related="company_id.contact_forward_by_vat",
+        readonly=False,
+        help="When enabled, the 'id' field will be removed from forwarded payloads, "
+             "forcing the external system to search/update by VAT instead of ID. "
+             "Use this for systems like Metafar that identify contacts by VAT.",
+    )
 
     @api.constrains("contact_forward_enabled")
     def _check_forward_queue_module(self):
