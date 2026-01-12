@@ -3,6 +3,7 @@ import logging
 import time
 from jose import jwt
 import requests
+import os
 
 from odoo import api, models
 
@@ -53,6 +54,9 @@ class ForwardQueueJob(models.AbstractModel):
 
     @api.model
     def run_forward_queue(self):
+        pendit_limit = float(os.getenv('ODOO_PARTNER_CONTACT_PENDING_LIMIT', '50'))
+        retry_peding = float(os.getenv('ODOO_PARTNER_CONTACT_RETRY_PENDING', '25'))
+        sleep_time = float(os.getenv('ODOO_PARTNER_CONTACT_SLEET_TIME', '3'))
         company = self.env.company
         if not company.contact_forward_enabled:
             return True
@@ -75,8 +79,8 @@ class ForwardQueueJob(models.AbstractModel):
             _logger.error("Cannot create JWT token: %s", str(ex))
             return True
         
-        pending = queue_model.search([("status", "=", "pending")], limit=50, order="created_at asc")
-        retry_pending = queue_model.search([("status", "=", "retry_pending")], limit=25, order="created_at asc")
+        pending = queue_model.search([("status", "=", "pending")], limit=pendit_limit, order="created_at asc")
+        retry_pending = queue_model.search([("status", "=", "retry_pending")], limit=retry_peding, order="created_at asc")
         
         # Combine both lists for processing
         items_to_process = list(pending) + list(retry_pending)
@@ -105,6 +109,8 @@ class ForwardQueueJob(models.AbstractModel):
                         "response_code": res.status_code,
                         "error_message": error_msg or res.text[:1000],
                     })
+
+                time.sleep(sleep_time)
                     
             except requests.Timeout:
                 new_status = "retry_pending" if item.attempts < 5 else "failed"
