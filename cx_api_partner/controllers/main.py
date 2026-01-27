@@ -354,3 +354,45 @@ class ApiPartnerControllers(http.Controller):
             _logger.error(e)
             request.env.cr.rollback()
             return {"ERROR": e}
+
+    @http.route(
+        "/contacts/partner/by-vat",
+        type="json",
+        auth="jwt_cx_api_partner",
+        methods=["GET"],
+    )
+    def get_partner_by_vat(self, vat=None):
+        """Consulta un partner por su VAT/CUIT"""
+        if not vat:
+            return {"ERROR": "VAT not provided"}
+        
+        partner = request.env["res.partner"].sudo().search([("vat", "=", vat)], limit=1)
+        
+        if not partner:
+            return {"ERROR": "Partner not found"}
+        
+        # Construir respuesta con valores descriptivos
+        response_data = {
+            "id": partner.id,
+            "name": partner.name,
+            "vat": partner.vat,
+            "country": partner.country_id.name if partner.country_id else False,
+            "state": partner.state_id.name if partner.state_id else False,
+            "street_name": partner.street_name,
+            "zip": partner.zip,
+            "phone": partner.phone,
+            "email": partner.email,
+            "company_type": partner.company_type,
+            "identification_type": partner.l10n_latam_identification_type_id.name if partner.l10n_latam_identification_type_id else False,
+        }
+        
+        # Agregar tipos de responsabilidad si existen
+        if hasattr(partner, "l10n_ar_afip_responsibility_type_id"):
+            response_data["afip_responsibility_type"] = (
+                partner.l10n_ar_afip_responsibility_type_id.name 
+                if partner.l10n_ar_afip_responsibility_type_id else False
+            )
+        if hasattr(partner, "l10n_cl_sii_taxpayer_type"):
+            response_data["sii_taxpayer_type"] = partner.l10n_cl_sii_taxpayer_type
+        
+        return {"SUCCESS": response_data}
