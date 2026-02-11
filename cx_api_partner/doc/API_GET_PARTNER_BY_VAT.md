@@ -27,9 +27,20 @@ Content-Type: application/json
 
 ---
 
-## Parámetros
+## Formato de Request (JSON-RPC 2.0)
 
-### Query Parameters / JSON Body
+El endpoint utiliza el protocolo JSON-RPC 2.0. El cuerpo del request debe tener la siguiente estructura:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "params": {
+    "vat": "23908677064"
+  }
+}
+```
+
+### Parámetros en `params`
 
 | Parámetro | Tipo | Requerido | Descripción |
 |-----------|------|-----------|-------------|
@@ -37,25 +48,29 @@ Content-Type: application/json
 
 ---
 
-## Respuesta Exitosa
+## Respuesta Exitosa (JSON-RPC 2.0)
 
 ### HTTP Status: 200 OK
 
 ```json
 {
-  "SUCCESS": {
-    "id": 123,
-    "name": "Empresa XYZ S.A.",
-    "vat": "30123456789",
-    "country": "Argentina",
-    "state": "Buenos Aires",
-    "street_name": "Av. Corrientes",
-    "zip": "1043",
-    "phone": "+54 11 4321-8765",
-    "email": "contacto@empresa.com",
-    "company_type": "company",
-    "identification_type": "CUIT",
-    "afip_responsibility_type": "Responsable Inscripto"
+  "jsonrpc": "2.0",
+  "id": null,
+  "result": {
+    "SUCCESS": {
+      "id": 42,
+      "name": "ABSHIRE, RORY",
+      "vat": "23908677064",
+      "country": "Argentina",
+      "state": "Buenos Aires",
+      "street_name": "Avenida Santa Fe",
+      "zip": "C1425BGK",
+      "phone": false,
+      "email": "Trycia30@gmail.com",
+      "company_type": "company",
+      "identification_type": "CUIT",
+      "afip_responsibility_type": "Consumidor Final"
+    }
   }
 }
 ```
@@ -71,8 +86,8 @@ Content-Type: application/json
 | `state` | string | Nombre de la provincia/estado |
 | `street_name` | string | Nombre de la calle |
 | `zip` | string | Código postal |
-| `phone` | string | Teléfono |
-| `email` | string | Correo electrónico |
+| `phone` | string \| false | Teléfono (puede ser `false` si no está definido) |
+| `email` | string \| false | Correo electrónico (puede ser `false` si no está definido) |
 | `company_type` | string | Tipo: `"company"` o `"person"` |
 | `identification_type` | string | Tipo de identificación (ej: "CUIT", "DNI", "Passport") |
 | `afip_responsibility_type` | string | **(Solo Argentina)** Tipo de responsabilidad AFIP |
@@ -80,13 +95,17 @@ Content-Type: application/json
 
 ---
 
-## Respuestas de Error
+## Respuestas de Error (JSON-RPC 2.0)
 
 ### VAT no proporcionado
 
 ```json
 {
-  "ERROR": "VAT not provided"
+  "jsonrpc": "2.0",
+  "id": null,
+  "result": {
+    "ERROR": "VAT not provided"
+  }
 }
 ```
 
@@ -94,7 +113,11 @@ Content-Type: application/json
 
 ```json
 {
-  "ERROR": "Partner not found"
+  "jsonrpc": "2.0",
+  "id": null,
+  "result": {
+    "ERROR": "Partner not found"
+  }
 }
 ```
 
@@ -115,7 +138,10 @@ curl -X GET "https://your-odoo-instance.com/contacts/partner/by-vat" \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "vat": "30123456789"
+    "jsonrpc": "2.0",
+    "params": {
+      "vat": "23908677064"
+    }
   }'
 ```
 
@@ -131,18 +157,23 @@ headers = {
     "Content-Type": "application/json"
 }
 data = {
-    "vat": "30123456789"
+    "jsonrpc": "2.0",
+    "params": {
+        "vat": "23908677064"
+    }
 }
 
 response = requests.get(url, headers=headers, json=data)
 result = response.json()
 
-if "SUCCESS" in result:
-    partner = result["SUCCESS"]
+if "result" in result and "SUCCESS" in result["result"]:
+    partner = result["result"]["SUCCESS"]
     print(f"Partner encontrado: {partner['name']}")
     print(f"Email: {partner['email']}")
+elif "result" in result and "ERROR" in result["result"]:
+    print(f"Error: {result['result']['ERROR']}")
 else:
-    print(f"Error: {result.get('ERROR')}")
+    print(f"Error inesperado: {result}")
 ```
 
 ### JavaScript (fetch)
@@ -152,7 +183,10 @@ const url = "https://your-odoo-instance.com/contacts/partner/by-vat";
 const token = "YOUR_JWT_TOKEN";
 
 const data = {
-  vat: "30123456789"
+  jsonrpc: "2.0",
+  params: {
+    vat: "23908677064"
+  }
 };
 
 fetch(url, {
@@ -165,10 +199,12 @@ fetch(url, {
 })
   .then(response => response.json())
   .then(result => {
-    if (result.SUCCESS) {
-      console.log("Partner encontrado:", result.SUCCESS);
+    if (result.result && result.result.SUCCESS) {
+      console.log("Partner encontrado:", result.result.SUCCESS);
+    } else if (result.result && result.result.ERROR) {
+      console.error("Error:", result.result.ERROR);
     } else {
-      console.error("Error:", result.ERROR);
+      console.error("Error inesperado:", result);
     }
   })
   .catch(error => console.error("Error de conexión:", error));
@@ -188,6 +224,13 @@ Este endpoint es útil para:
 ---
 
 ## Notas Importantes
+
+### Protocolo JSON-RPC 2.0
+
+Este endpoint utiliza el estándar **JSON-RPC 2.0**:
+- Todos los requests deben incluir `"jsonrpc": "2.0"` y los parámetros en `"params"`
+- Todas las respuestas incluyen `"jsonrpc": "2.0"`, `"id": null` y el resultado en `"result"`
+- Para acceder a los datos, debe usar `response.result.SUCCESS` o `response.result.ERROR`
 
 ### Localización
 
