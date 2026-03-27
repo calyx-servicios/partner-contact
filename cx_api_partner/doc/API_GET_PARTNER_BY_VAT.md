@@ -63,7 +63,8 @@ El endpoint utiliza el protocolo JSON-RPC 2.0. El cuerpo del request debe tener 
       "vat": "23908677064",
       "country": "Argentina",
       "state": "Buenos Aires",
-      "street_name": "Avenida Santa Fe",
+      "street": "Avenida Santa Fe 1234",
+      "street_name": "Avenida Santa Fe 1234",
       "zip": "C1425BGK",
       "phone": false,
       "email": "Trycia30@gmail.com",
@@ -84,7 +85,8 @@ El endpoint utiliza el protocolo JSON-RPC 2.0. El cuerpo del request debe tener 
 | `vat` | string | Número de VAT/CUIT |
 | `country` | string | Nombre del país |
 | `state` | string | Nombre de la provincia/estado |
-| `street_name` | string | Nombre de la calle |
+| `street` | string | Dirección completa guardada en Odoo (`street`) |
+| `street_name` | string | Dirección completa guardada en Odoo (`street`) |
 | `zip` | string | Código postal |
 | `phone` | string \| false | Teléfono (puede ser `false` si no está definido) |
 | `email` | string \| false | Correo electrónico (puede ser `false` si no está definido) |
